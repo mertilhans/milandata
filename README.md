@@ -1,4 +1,79 @@
  ## MiniSHELL
+ # LEXER NEDİR ? 
+-Düşün ki elinde bir cümle var: "ls -la | grep test"
+-Tokenizer bu cümleyi parçalara ayıran makine gibi:
+-ls → WORD (kelime)
+-la → WORD (kelime)
+-| → PIPE (boru)
+-grep → WORD (kelime)
+-test → WORD (kelime)
+- Lexer Yapısı;
+- t_lexer = input: "ls -la | grep"  (işleyeceğim metin)
+pos: 3                  (şu anda nerdeyim - 3. karakter)
+current: '-'            (şu anda hangi karaktere bakıyorum)
+-type: TOKEN_WORD        (bu ne tür bir parça?)
+value: "ls"             (değeri ne?)
+next: →                 (sonraki parça nerede?)
+-Algoritma nasıl Çalışıyor
+- lexer_init("ls -la | grep test") 1 Metni kopyala 2 pozisyonu 0 ayarla ilk karaktere bak (l)
+- Adım 2 lexer_get_next(boşluk atla )
+- "ls -la"
+   ↑ (buradayım, boşluk var, atla)
+"ls -la"
+    ↑ (şimdi buradayım)
+- karakterlere bak karar ver
+- Eğer | ise → PIPE token yap
+Eğer > ise → REDIRECT token yap
+Eğer harf ise → WORD token yap
+Eğer " ise → Tırnaklı string yap
+- Adım 3 extract word "ls -la" da -la kısmındayız  pos = 3 yani - karakterindeyiz
+- Döngü:
+ '-' → harf mi? Evet, devam
+ 'l' → harf mi? Evet, devam
+ 'a' → harf mi? Evet, devam
+ ' ' → boşluk! Dur.
+ Sonuç: "-la" kelimesini çıkar
+- Adım 4 Özel karakterler örneğin pipe
+- if (current == '|')
+{
+    if (next == '|')  // || mı?
+        return TOKEN_OR
+    else              // sadece | mı?  
+        return TOKEN_PIPE
+
+}
+- 1. Adım:
+ 
+ Karakter: 'l' → Harf, kelime topla
+ Sonuç: "ls" (TOKEN_WORD)
+ 
+ 2. Adım:
+
+ Karakter: ' ' → Boşluk, atla
+ Karakter: '|' → Özel karakter
+ Sonuç: "|" (TOKEN_PIPE)
+ 
+ 3. Adım:
+
+ Karakter: ' ' → Boşluk, atla
+ Karakter: 'g' → Harf, kelime topla
+ Sonuç: "grep" (TOKEN_WORD)
+ 
+ 4. Adım:
+
+ String bitti → TOKEN_EOF
+-Linked list Bağlama
+- [ls] → [|] → [grep] → NULL
+- 6.ADIM TIRNAK İŞLEME input = 'echo "hello world"' " gördüğünde 1.tırnağı atla bir sonraki " görene kadar topla, içinde ki herşeyi boşluk dahil tek kelime yap
+  Sonuç "hello world" TOKEN_WORD
+- ÖZET İLE ;
+  Metni baştan sona tara
+  Her karaktere bak
+  Karar ver: Özel karakter mi? Harf mi? Boşluk mu?
+  Uygun token oluştur
+  Sonrakine geç
+  Linked liste ekle
+   
 # Process Nedir ?
 - Process Çalışan bir programın örneği,kendi bellek alanı,dosya tanımlayıcıları ve durum bilgisi ile.
 - İşlem oluşturma fork() : Bir parent process kendisinin bir kopyası olan bir child process oluşturması fork() un dönüş değeri parent ta child PIDS'Sİ child'da 0 ve bunun önemi .
