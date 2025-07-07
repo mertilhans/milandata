@@ -1,220 +1,171 @@
-#include "minishell.h"
-#include "stdio.h"
-#include "unistd.h"
-# include <readline/readline.h>
-
-
-
-
-
-
-int ft_strcmp(char *s1, char *s2)
-{
-    int i = 0;
-    if (!s1 || !s2) 
-        return -1; 
-
-    while (s1[i] && s2[i] && s1[i] == s2[i])
-    {
-        i++;
-    }
-    return (s1[i] - s2[i]);
-}
-
-//int ft_lexer_echo(char *av)
-//{
-  //  int i = 0;
-    //if (av[i] == 'e')
-    
-    //return (0);
-//}
-char *control(char *av)
-{
-    int i = 0;
-    int j = 0; 
-    char *res = malloc(sizeof(char) * 1000);
-    if (!res)
-        return NULL;
-
-    while (av[i] != '\0')
-    {
-        
-        if (av[i] != '\'') 
-        {
-            res[j] = av[i];
-            j++;
-        }
-        i++;
-    }
-    return (res);
-}
-
-int ft_control_2(char *av)
-{
-    int i = 0;
-    int a = 0;
-    while(av[i])
-    {
-        if (av[i] == '\"')
-            a++;
-        i++;
-    }
-    if (a % 2 == 0)
-        return (1);
-    return (0);
-
-}
-
-char *ft_control_4(char *av)
-{
-    int i = 0;
-    int j = 0; 
-    char *res = malloc(sizeof(char) * 1000);
-    if (!res)
-        return NULL;
-
-    while (av[i] != '\0')
-    {
-        
-        if (av[i] != '\"') 
-        {
-            res[j] = av[i];
-            j++;
-        }
-        i++;
-    }
-    return (res);
-}
-
-int ft_strlen(char *str)
+int red_len(char *str)
 {
     int i = 0;
     while(str[i])
         i++;
     return (i);
-
 }
 
-int ft_echo(char *av)
-{
-        printf("%s ",av);
-    return (0);
-}
-
-// int ft_cat_handle(char *av)
-// {
-
-//     (void)av;
-//     int fd; 
-//     int read_size;
-//     char buffer[BUFFER_SIZE + 1];
-//     const char *filename = av;
-
-
-//     fd = open(filename,O_RDONLY,777);
-//     if (fd == -1)
-//         printf("hata");
-//     while ((read_size = read(fd,buffer,BUFFER_SIZE)) > 0)
-//     {
-//         buffer[read_size] = '\0';
-//         write(1,buffer,read_size);
-//     }
-//     close(fd);
-//     return (0);
-// }
-
-
-// int ft_cat_control(char *av)
-// {
-//     if (!(ft_strcmp("cat",av)))
-//     {
-//         printf("başarili\n");
-//      return (1);
-
-//     }
-//     return (0);
-// }
-int lexer(char *av)
-{
-    // printf("sarp\n");
-    // if (ft_cat_control(av))
-    //     return (3);
-    if (!(ft_control_2(av)))
-        return (0);
-    av = ft_control_4(av);
-    char *res = control(av);
-    if (!ft_strcmp("echo",res))
-        return (1);
-    
-    // ft_echo(av);
-    return (1);
-}
-char *ft_space(char *str)
+int ft_ctrl(char *str)
 {
     int i = 0;
-    int a = 0;
-    char *res;
-    res = malloc(sizeof(char) * ft_strlen(str));
-
-    while(str[i])
+    if (str[i] && str[i + 1])
     {
-        if (str[i] != 32)
+        if (str[i] == '>' && str[i + 1] == '<')
+            i++;
+    }
+    while(str[i] == '<')
         i++;
-        else
-        break;
-    }
-    i++;
-    if(!str[i])
-    {
-        write(1,"\n",1);
-        return (NULL);
-    }
-    while(str[i])
-    {
-        res[a] = str[i];
-        a++;
-        i++;
-    }
-    res[a] = '\0';
-    return(res);
+    if(str[i] == '\0')
+        return (1);
+    else if (str[i] == '>')
+        return (2);
+    else
+        return (0);
 }
 
-int main(int ac, char **av)
+int ft_ctrl_2(char *str)
 {
-    (void)ac;
-    (void)av;
-    char *res;
-    char *value;
-    value = readline("Minishell-> ");
-    res = value;
+    int i = 0;
     
-    res = ft_space(res);
-    pid_t pid = fork();
-    if (pid == 0) 
+    if (str[i] && str[i + 1])
     {
-        if(lexer(value) == 1)
-        {
-            
-            if(res == NULL)
-            return 0;
-            printf("%s \n",res);
-            
-        }
-        // if (lexer(value) == 3)
-        // {
-        //     printf("sarp");
-        //     // printf("%s ",res);
-        //     // exit(0);
-        //     ft_cat_handle(res);
-        //     printf("cat başarili\n");
-        // }
-    
-    } else if (pid > 0) {
-        wait(NULL); 
-        
-    } else {
-        perror("fork");
+        if (str[i] == '<' && str[i + 1] == '>')
+            i = 1;
     }
-    free(res); 
-    return 0;
+    else
+        return (i);
+    return (i);
+}
+int ft_ctr_3(char *str)
+{
+	int i = 0;
+	str++;
+	str++;
+	if (str[i] == '<' && str[i + 1] == '>')
+		return (1);
+	else 
+		return (i);
+	return (0);
+}
+
+int ft_alphabet(char c)
+{
+	if (c >= 'a' && c <= 'z')
+		return (1);
+	else if (c >= 'A'  && c <= 'Z')
+		return (1);
+	else 
+		return (0);
+}
+void ft_error_2(char *str)
+{
+	int i = 0;
+	if (str[i] == '~')
+		printf("bash: /home/husarpka: Is a directory\n");
+}
+int ft_ctrl_4(char *str)
+{
+   int i = 0;
+    if (str[i] && str[i + 1])
+    {
+        if (str[i] == '>' && str[i + 1] == '<')
+            i = 1;
+    }
+    else
+        return (i);
+    return (i);
+ }
+
+int ctrrr(char *str)
+{
+    int i = 0;
+    while (str[i])
+        i++;
+    if (str[i] == '\0')
+        return(i);
+    return (0);
+    
+} 
+void error(char *str)
+{
+    int i;
+    int a = 0;
+    int value;
+    int c = 0;
+
+    i = 0;
+    char *res = ft_strdup(str);
+    while(res)
+    {
+        if (*res == 32)
+            res++;
+        else 
+            break;
+    }
+    if (res[i] == '|')
+        printf("bash: syntax error near unexpected token `|'\n");
+    else if (ctrrr(str) > 2)
+    {
+        c = ctrrr(str);
+        if (c == 3)
+            printf("bash: syntax error near unexpected token `>'\n");
+        else if (c >= 4)
+            printf("bash: syntax error near unexpected token `>>'\n");
+            
+    }
+    else if (res[i] == '>' && res[i + 1] == '<')
+    {
+        a = red_len(str);
+       
+        value = ft_ctrl(str);
+        printf("(%d)",value);
+        if (res[i] == '>' && res[i + 1] == '<' && res[i + 2] == '>')
+            printf("bash: syntax error near unexpected token `<>'");
+       else if (value == 1)
+        {
+            printf("bash: syntax error near unexpected token `");
+            if (a > 3)
+                a = 4;
+            while(--a)
+                printf("<");
+            printf("'");
+        }
+        else if (ft_ctrl_2(str))
+        {
+
+           printf("bash: syntax error near unexpected token `<>'");
+           
+        }
+        printf("\n");
+    }
+        //printf("bash: syntax error near unexpected token `<'\n");
+    else if (res[i] == '<' && res[i + 1] == '>' && res[i + 2] == '\0')
+        printf("bash: syntax error near unexpected token `newline'\n");
+    else if (res[i] == '<' && res[i + 1] == '>' )
+	{
+		if (ft_ctr_3(str))
+			printf("bash: syntax error near unexpected token `<>'\n");
+		else
+        	printf("bash: syntax error near unexpected token `");
+            a = red_len(str);
+            if (a > 3)
+                a = 4;
+            while(--a)
+                printf(">");
+           printf("'");
+                
+           printf("\n");
+		
+	}
+	else if (res[i] == '<' && ft_alphabet(res[i + 1]))
+	{
+        res++;
+		printf("bash: %s: No such file or directory\n",res);
+	}
+    else if (res[i] == '<' || res[i] == '>')
+        printf("bash: syntax error near unexpected token `newline'\n");
+    ft_error_2(res);
+	    //printf("%s \n",res);
+        
 }
