@@ -210,6 +210,32 @@ run_test "Hardcore Echo Chain" "echo test1\necho test2\necho test3\necho test4\n
 run_test "Mixed Command Types" "pwd\necho hello\nenv | head -1\nexit" "bash31.31" "Mixed builtin and echo commands"
 
 echo -e "\n${PURPLE}╔══════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${PURPLE}║                🚨 SIGNAL VE CONTROL TESTLERI                ║${NC}"
+echo -e "${PURPLE}╚══════════════════════════════════════════════════════════════╝${NC}"
+
+run_test "Process Chain" "echo start\necho middle\necho end\nexit" "start" "Sequential process execution"
+run_test "Error Handling" "nonexistent_cmd\necho error_handled\nexit" "nonexistent_cmd: command not found" "Command error handling"
+run_test "Exit Code Test" "false\necho continues\nexit" "continues" "Exit code handling"
+run_test "True Command" "true\necho success\nexit" "success" "True command test"
+run_test "Multiple Commands" "echo first\ntrue\necho second\nfalse\necho third\nexit" "first" "Multiple command chain"
+run_test "Empty Line Handle" "\necho empty_line\nexit" "empty_line" "Empty line handling"
+run_test "Command Spacing" "echo    spaced_cmd\nexit" "spaced_cmd" "Command with spaces"
+run_test "Long Command Chain" "echo 1\necho 2\necho 3\necho 4\necho 5\nexit" "1" "Long command sequence"
+
+echo -e "\n${PURPLE}╔══════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${PURPLE}║            💀 HARDCORE PROCESS VE CONTROL TESTLERI          ║${NC}"
+echo -e "${PURPLE}╚══════════════════════════════════════════════════════════════╝${NC}"
+
+run_test "Exit Code Chain" "true\nfalse\ntrue\necho exit_chain\nexit" "exit_chain" "Exit code handling chain"
+run_test "Command Not Found Chain" "invalid1\ninvalid2\necho cmd_errors\nexit" "invalid1: command not found" "Multiple command errors"
+run_test "Mixed Success Fail" "echo success1\nfalse\necho success2\ntrue\necho success3\nexit" "success1" "Mixed success/failure"
+run_test "Long Error Chain" "bad1\nbad2\nbad3\necho error_recovery\nexit" "bad1: command not found" "Long error chain"
+run_test "Process Resilience" "echo resilient\ninvalidcmd\necho continues\nexit" "resilient" "Process resilience test"
+run_test "Command Sequence" "pwd\necho middle\npwd\nexit" "bash31.31" "Command sequence test"
+run_test "Error Recovery" "nonexistent\necho recovered\npwd\nexit" "nonexistent: command not found" "Error recovery chain"
+run_test "Status Preservation" "true\necho status_ok\nfalse\necho status_continues\nexit" "status_ok" "Status preservation test"
+
+echo -e "\n${PURPLE}╔══════════════════════════════════════════════════════════════╗${NC}"
 echo -e "${PURPLE}║                    📊 TEST SONUÇLARI                        ║${NC}"
 echo -e "${PURPLE}╚══════════════════════════════════════════════════════════════╝${NC}"
 echo -e "${WHITE}Toplam Test: $TOTAL${NC}"
