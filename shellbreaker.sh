@@ -174,10 +174,13 @@ echo -e "${PURPLE}║                📝 HEREDOC TESTLERI                      
 echo -e "${PURPLE}╚══════════════════════════════════════════════════════════════╝${NC}"
 
 run_test "Basit Heredoc" "cat << EOF\nhello\nworld\nEOF\nexit" "hello" "Basic heredoc functionality"
+run_test "Heredoc Variable Expansion" "export NAME=test\ncat << EOF\nHello \$NAME\nEOF\nexit" "Hello test" "Variable expansion in heredoc"
+run_test "Heredoc No Expansion" "cat << 'EOF'\nHello \$USER\nEOF\nexit" "Hello \$USER" "Quoted heredoc (no expansion)"
 run_test "Heredoc Multiple Words" "cat << END\nhello world\ntest line\nEND\nexit" "hello world" "Multi-word heredoc lines"
 run_test "Heredoc Different Delimiter" "cat << FINISH\nfirst line\nsecond line\nFINISH\nexit" "first line" "Custom delimiter heredoc"
 run_test "Heredoc Empty Lines" "cat << EOF\n\ntest\n\nEOF\nexit" "test" "Heredoc with empty lines"
 run_test "Heredoc Long Delimiter" "cat << VERYLONGDELIMITER\ncontent here\nVERYLONGDELIMITER\nexit" "content here" "Long delimiter test"
+run_test "Heredoc Complex Variables" "export USER=mert\nexport HOME=/test\ncat << EOF\nUser: \$USER\nHome: \$HOME\nEOF\nexit" "User: mert" "Complex variable expansion"
 
 echo -e "\n${PURPLE}╔══════════════════════════════════════════════════════════════╗${NC}"
 echo -e "${PURPLE}║                🔧 GELİŞMİŞ ÖZELLIK TESTLERI                ║${NC}"
