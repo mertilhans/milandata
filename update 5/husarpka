@@ -1,0 +1,8 @@
+
+
+- Heredoc Ctrl+C durumunda `read_heredoc_with_expand` boş string döndürüyordu
+- `ft_h_built_expand` sadece NULL kontrolü yapıyordu, boş string kontrolü yapmıyordu
+- Şimdi hem NULL hem boş string kontrolü yapıyor
+- Ctrl+C durumunda doğru şekilde -1 döndürüyor
+- Exit status 130 set ediliyor
+- `$?` artık 130 gösterecek (ve "130: command not found" verecek ki bu doğru)
