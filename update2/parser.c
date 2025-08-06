@@ -321,6 +321,19 @@ t_token *ft_control_token(t_token *tokens, t_parser **cmd_list, t_parser **last_
         tokens = tokens->next;
     return tokens;
 }
+int token_ctrl(t_token *tokens)
+{
+    if (tokens->type == TOKEN_REDIR_IN)
+        return (1);
+    if (tokens->type == TOKEN_REDIR_OUT)
+        return (1);
+    if (tokens->type == TOKEN_REDIR_APPEND)
+        return (1);
+    if (tokens->type == TOKEN_HEREDOC)
+        return (1);
+    
+    return (0);
+}
 
 t_parser *parse_tokens(t_token *tokens, t_env *env_list, int exit_status)
 {
@@ -329,12 +342,20 @@ t_parser *parse_tokens(t_token *tokens, t_env *env_list, int exit_status)
 
     cmd_list = NULL;
     last_cmd = NULL;
-    if (tokens->type == TOKEN_PIPE && !tokens->next)
+    if (token_ctrl(tokens))
     {
-       printf("bash: syntax error near unexpected token `|'\n");
+         
+        printf("bash: syntax error near unexpected token `newline'\n");
         return (NULL);
 
     }
+    
+    //if (tokens->type == TOKEN_PIPE && !tokens->next)
+    //{
+    //   printf("bash: syntax error near unexpected token `|'\n");
+    //    return (NULL);
+
+    //}
     while (tokens && tokens->type != TOKEN_EOF )
     {
         while (tokens && tokens->type == TOKEN_PIPE)

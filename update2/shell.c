@@ -6,7 +6,7 @@
 /*   By: husarpka <husarpka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 03:36:25 by husarpka          #+#    #+#             */
-/*   Updated: 2025/08/06 12:46:25 by husarpka         ###   ########.fr       */
+/*   Updated: 2025/08/06 14:43:29 by husarpka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,17 +143,10 @@ int	process_command_line(char *line, t_env **env_list, char **env)
 	gb_malloc(ft_strlen(line));
 	tokens = tokenize_input(line);
 	if (!tokens)
-	{
-		if (line && ft_strlen(line) > 0 && !ft_ispace(line[0]))
-			printf("tokenization failed\n");
 		return (0);
-	}
 	cmd_list = parse_tokens(tokens, *env_list, 0);
 	if (!cmd_list)
-	{
-		
-		return (3);
-	}
+		return (0);
 	updated_env = env_list_to_array(*env_list);
 	if (updated_env)
 	{
@@ -162,7 +155,8 @@ int	process_command_line(char *line, t_env **env_list, char **env)
 	}
 	else
 		exit_status = execute_cmds(cmd_list, env, env_list);
-	return (exit_status);
+	return (0);
+	//return (exit_status);
 }
 
 void	shell_loop(t_env *env_list, char **env)
@@ -183,13 +177,13 @@ void	shell_loop(t_env *env_list, char **env)
 			free(line);
 		else
 		{
-			if (process_command_line(line, &env_list, env) == 3)
+			if (process_command_line(line, &env_list, env))
 			{
 				
 				free(line);
 				break;
-			}-
-				free(line);
+			}
+			
 		}
 	}
 }
@@ -199,6 +193,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	  
 	env_list = initialize_shell(env);
 	shell_loop(env_list, env);
 	rl_clear_history();

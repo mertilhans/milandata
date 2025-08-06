@@ -504,6 +504,7 @@ int ft_h_built_expand(t_redirection *current_redir, char *heredoc_content,
 	close(pipefd[1]);
 	gc_free(heredoc_content);
 	*last_heredoc_fd = pipefd[0];
+	printf("(%d)\n",*last_heredoc_fd);
 	return pipefd[0];
 }
 
@@ -722,7 +723,7 @@ void ft_exec_start(t_parser *cmd,t_exec_data *data, t_env **env_list)
 		ft_builtin_call(cmd, data, env_list);
 		 gb_free_all();
             env_gb_free_all();
-		exit(data->last_exit_status);
+		//exit(data->last_exit_status);
 	}
 	else
 	{
@@ -739,7 +740,7 @@ void ft_exec_start(t_parser *cmd,t_exec_data *data, t_env **env_list)
 		if (!exec_path)
 		{
             
-		//printf("%s: command not found\n", cmd->argv[0]);
+		printf("%s: command not found\n", cmd->argv[0]);
             gb_free_all();
             env_gb_free_all();
 			exit(127);
@@ -928,17 +929,21 @@ int heredoc_handle(t_parser *cmd_list,t_exec_data *data, t_env *env_list, int ex
 	t_parser *current_cmd;
 
 	current_cmd = cmd_list;
+
 	while (current_cmd)
 	{
 		current_cmd->heredoc_fd = process_heredocs(current_cmd, env_list, exit_status);
+		printf("son her (%d)\n",current_cmd->heredoc_fd);
 		if (current_cmd->heredoc_fd == -1)
 		{
 			data->last_exit_status = 130;
 			heredoc_fd_error(cmd_list,data,current_cmd);
+			current_cmd->heredoc_fd = -1;
 			return (1);
 		}
 		current_cmd = current_cmd->next;
 	}
+	
 	return (0);
 }
 int n_next_or_built(t_parser *cmd_list, t_exec_data *data, t_env **env_list)
@@ -1004,11 +1009,13 @@ int ft_data_pids(t_parser *cmd_list, t_exec_data *data, t_env **env_list)
 void finish_fd(t_parser *cmd_list,t_exec_data *data)
 {
 	t_parser *current_cmd;
-
+	printf("(%d)\n",cmd_list->heredoc_fd);
 	current_cmd = cmd_list;
 	while(current_cmd)
 	{
-		if (current_cmd->heredoc_fd != -1 && current_cmd->heredoc_fd != -2) {
+		if (current_cmd->heredoc_fd != -1 && current_cmd->heredoc_fd != -2) 
+		{
+			printf("----\n");
 			close(current_cmd->heredoc_fd);
 			current_cmd->heredoc_fd = -1;
 		}
@@ -1042,6 +1049,7 @@ int execute_cmds(t_parser *cmd_list, char **env, t_env **env_list)
 	
 	if (heredoc_handle(cmd_list, &data, *env_list, data.last_exit_status))
 	{
+		
 		return (data.last_exit_status);
 	}
 	
@@ -1067,11 +1075,9 @@ int execute_cmds(t_parser *cmd_list, char **env, t_env **env_list)
 		setup_interactive_signals();
 		return (1);
 	}
-	
 	setup_interactive_signals();
 	
 	finish_fd(cmd_list, &data);
-	
 
 	return (data.last_exit_status);
 }
