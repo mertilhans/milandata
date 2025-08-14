@@ -1,0 +1,56 @@
+#include "shell.h"
+
+t_tokenizer	*tokenizer_init(char *input)
+{
+	t_tokenizer	*tokenizer;
+
+	if (!input)
+		return (NULL);
+	tokenizer = gb_malloc(sizeof(t_tokenizer));
+	if (!tokenizer)
+		return (NULL);
+	tokenizer->input = ft_strdup(input);
+	if (!tokenizer->input)
+	{
+		gc_free(tokenizer);
+		return (NULL);
+	}
+	tokenizer->pos = 0;
+	tokenizer->len = ft_strlen(input);
+	if (tokenizer->len > 0)
+		tokenizer->current = input[0];
+	else
+		tokenizer->current = '\0';
+	return (tokenizer);
+}
+
+t_token	*create_token(t_token_type type, char *value)
+{
+	t_token	*token;
+
+	token = gb_malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->type = type;
+	if (value)
+		token->value = ft_strdup(value);
+	else
+		token->value = NULL;
+	token->next = NULL;
+	return (token);
+}
+
+void	cleanup_env_array(char **env_array)
+{
+	int	i;
+
+	if (!env_array)
+		return ;
+	i = 0;
+	while (env_array[i])
+	{
+		env_gc_free(env_array[i]);
+		i++;
+	}
+	env_gc_free(env_array);
+}
