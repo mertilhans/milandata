@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_operations.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merilhan <merilhan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: husarpka <husarpka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 00:00:00 by mertilhan13       #+#    #+#             */
-/*   Updated: 2025/08/18 16:10:18 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/08/18 22:08:10 by husarpka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ void	unset_export_value(t_export **export_list, const char *key)
 				prev->next = current->next;
 			else
 				*export_list = current->next;
-			if (current->key)
-				free(current->key);
-			if (current->value)
-				free(current->value);
-			free(current);
+			//if (current->key)
+			//	free(current->key);
+			//if (current->value)
+			//	free(current->value);
+			//free(current);
 			return ;
 		}
 		prev = current;
@@ -47,23 +47,6 @@ void	unset_export_value(t_export **export_list, const char *key)
 	}
 }
 
-void	free_export_list(t_export *export_list)
-{
-	t_export	*current;
-	t_export	*next;
-
-	current = export_list;
-	while (current)
-	{
-		next = current->next;
-		if (current->key)
-			free(current->key);
-		if (current->value)
-			free(current->value);
-		free(current);
-		current = next;
-	}
-}
 
 t_export	*init_export_from_env(t_env *env_list)
 {

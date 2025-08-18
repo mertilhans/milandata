@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merilhan <merilhan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: husarpka <husarpka@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 00:00:00 by mertilhan13       #+#    #+#             */
-/*   Updated: 2025/08/18 18:35:54 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/08/18 23:38:03 by husarpka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 void	handle_sigint(int signum)
 {
 	(void)signum;
+	
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -26,7 +27,6 @@ void	handle_sigint(int signum)
 void	handle_sigint_heredoc(int signum)
 {
 	(void)signum;
-	write(STDOUT_FILENO, "\n", 1);
 	set_last_exit_status(130);
 }
 

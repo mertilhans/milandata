@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merilhan <merilhan@42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*   By: husarpka <husarpka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 05:48:31 by merilhan          #+#    #+#             */
-/*   Updated: 2025/08/16 05:48:32 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/08/18 21:44:48 by husarpka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	is_numeric_string(char *str)
 		return (0);
 	while (str[i])
 	{
-		if (str[i] < '0' || str[i] > '9')
+		if ((str[i] < '0' || str[i] > '9') && str[i] != 32)
 			return (0);
 		i++;
 	}

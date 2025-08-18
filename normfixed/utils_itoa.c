@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_itoa.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merilhan <merilhan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: husarpka <husarpka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:41:01 by merilhan          #+#    #+#             */
-/*   Updated: 2025/08/18 18:43:56 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/08/18 21:18:05 by husarpka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,14 @@ char	*ft_itoa(int n)
 		num = num / 10;
 	}
 	return (str);
+}
+void	next_cmd_and_fd(t_exec_data *data)
+{
+	if (dup2(data->pipefd[1], STDOUT_FILENO) == -1)
+	{
+		perror("dup2 pipefd[1]");
+		exit(1);
+	}
+	close(data->pipefd[0]);
+	close(data->pipefd[1]);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_loop.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merilhan <merilhan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: husarpka <husarpka@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 05:50:22 by merilhan          #+#    #+#             */
-/*   Updated: 2025/08/18 16:12:12 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/08/18 23:39:45 by husarpka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	process_null_line(t_heredoc_buffer *buf, const char *delimiter,
 		*result = NULL;
 		return (1);
 	}
-	printf("bash: warning: here-document at line 1 delimited by end-of-file"
+	printf("bash: warning: here-document at line  delimited by end-of-file"
 		" (wanted `%s')\n", delimiter);
 	set_last_exit_status(0);
 	setup_interactive_signals();

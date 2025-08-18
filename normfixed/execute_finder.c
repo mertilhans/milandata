@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_finder.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merilhan <merilhan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: husarpka <husarpka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 05:49:02 by merilhan          #+#    #+#             */
-/*   Updated: 2025/08/18 15:27:30 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/08/18 21:09:02 by husarpka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ char	*join_path(char *dir, char *file)
 	size_t	flen;
 	char	*res;
 
-	flen = strlen(file);
-	dlen = strlen(dir);
+	flen = ft_strlen(file);
+	dlen = ft_strlen(dir);
 	res = gb_malloc(dlen + flen + 2);
 	if (!res)
 		return (NULL);

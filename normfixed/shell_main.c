@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_main.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merilhan <merilhan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: husarpka <husarpka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 04:14:54 by merilhan          #+#    #+#             */
-/*   Updated: 2025/08/18 18:34:40 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/08/18 21:04:54 by husarpka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	main(int ac, char **av, char **env)
 {
 	t_env	*env_list;
 
-	signal(SIGPIPE, SIG_IGN);
 	if (ac != 1)
 	{
 		ft_putendl_fd("No usage syntax\n", 2);

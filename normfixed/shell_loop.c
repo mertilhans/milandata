@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merilhan <merilhan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: husarpka <husarpka@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 04:15:36 by merilhan          #+#    #+#             */
-/*   Updated: 2025/08/18 18:34:34 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/08/18 23:38:31 by husarpka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	shell_loop(t_env *env_list, char **env)
 
 	while (1)
 	{
+		if(get_last_exit_status() == 130)
+			write(1,"\n",1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		line = readline("MiniShell->>>   ");

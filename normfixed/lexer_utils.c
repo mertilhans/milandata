@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merilhan <merilhan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: husarpka <husarpka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:46:45 by merilhan          #+#    #+#             */
-/*   Updated: 2025/08/18 16:19:37 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/08/18 22:50:53 by husarpka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*lexer_append_char(char c, t_token_data *data)
 
 	if (data->len >= data->capacity - 1)
 	{
-		data->capacity *= 2;
+		data->capacity += 1;
 		new_str = gb_malloc(data->capacity);
 		if (!new_str)
 			return (NULL);
@@ -62,7 +62,7 @@ char	*lexer_append_char(char c, t_token_data *data)
 void	ft_token_data_init(t_token_data *data)
 {
 	data->word = NULL;
-	data->capacity = 64;
+	data->capacity = 1;
 	data->len = 0;
 	data->in_quote = '\0';
 }

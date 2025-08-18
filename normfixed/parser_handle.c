@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merilhan <merilhan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: husarpka <husarpka@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:44:30 by merilhan          #+#    #+#             */
-/*   Updated: 2025/08/18 18:44:31 by merilhan         ###   ########.fr       */
+/*   Updated: 2025/08/18 23:31:22 by husarpka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_loop_3(t_token **tokens, t_parser *cmd, int *argc, t_all *all)
 		expand_argv_capacity(cmd, argc);
 	original_token = (*tokens)->value;
 	expanded = expand_with_quotes(original_token, all->env_list);
-	if (*argc == 0 && is_empty_expansion(original_token, expanded))
+	if (is_empty_expansion(original_token, expanded))
 	{
 		if (expanded)
 			gc_free(expanded);
